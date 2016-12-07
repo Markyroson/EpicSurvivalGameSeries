@@ -17,7 +17,7 @@ class SURVIVALGAME_API ASZombieAIController : public AAIController
 
 	ASZombieAIController(const class FObjectInitializer& ObjectInitializer);
 
-	/* Called whenever the controller possesses a character bot */
+	/** Called whenever the controller possesses a character bot */
 	virtual void Possess(class APawn* InPawn) override;
 
 	virtual void UnPossess() override;
@@ -50,7 +50,7 @@ public:
 
 	void SetBlackboardBotType(EBotBehaviorType NewType);
 
-	/** Returns BehaviorComp subobject **/
+	/** Returns BehaviorComp subobject */
 	FORCEINLINE UBehaviorTreeComponent* GetBehaviorComp() const { return BehaviorComp; }
 
 	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return BlackboardComp; }
