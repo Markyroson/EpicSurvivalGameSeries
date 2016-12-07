@@ -12,8 +12,4 @@ UCLASS()
 class SURVIVALGAME_API ASBotWaypoint : public ATargetPoint
 {
 	GENERATED_BODY()
-	
-	
-	
-	
 };
