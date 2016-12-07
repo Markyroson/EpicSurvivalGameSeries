@@ -10,10 +10,9 @@ public class SurvivalGameEditorTarget : TargetRules
 		Type = TargetType.Editor;
 	}
 
-	//
-	// TargetRules interface.
-	//
-
+	/*
+	 * TargetRules interface.
+	*/
 	public override void SetupBinaries(
 		TargetInfo Target,
 		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
