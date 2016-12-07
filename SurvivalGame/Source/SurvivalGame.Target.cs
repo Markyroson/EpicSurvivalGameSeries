@@ -10,9 +10,9 @@ public class SurvivalGameTarget : TargetRules
 		Type = TargetType.Game;
 	}
 
-	//
-	// TargetRules interface.
-	//
+	/*
+	 *  TargetRules interface.
+	*/
 
 	public override void SetupBinaries(
 		TargetInfo Target,
