@@ -63,7 +63,7 @@ void ASWeapon::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 
 /*
-	Return Mesh of Weapon
+*	Return Mesh of Weapon
 */
 USkeletalMeshComponent* ASWeapon::GetWeaponMesh() const
 {
@@ -83,7 +83,7 @@ void ASWeapon::SetOwningPawn(ASCharacter* NewOwner)
 	{
 		Instigator = NewOwner;
 		MyPawn = NewOwner;
-		// Net owner for RPC calls.
+		/* Net owner for RPC calls. */
 		SetOwner(NewOwner);
 	}
 }
@@ -107,7 +107,7 @@ void ASWeapon::AttachMeshToPawn(EInventorySlot Slot)
 {
 	if (MyPawn)
 	{
-		// Remove and hide
+		/* Remove and hide */
 		DetachMeshFromPawn();
 
 		USkeletalMeshComponent* PawnMesh = MyPawn->GetMesh();
@@ -135,7 +135,7 @@ void ASWeapon::OnEquip(bool bPlayAnimation)
 		float Duration = PlayWeaponAnimation(EquipAnim);
 		if (Duration <= 0.0f)
 		{
-			// Failsafe in case animation is missing
+			/* Failsafe in case animation is missing */
 			Duration = NoEquipAnimDuration;
 		}
 		EquipStartedTime = GetWorld()->TimeSeconds;
@@ -309,7 +309,7 @@ FVector ASWeapon::GetCameraDamageStartLocation(const FVector& AimDir) const
 		FRotator DummyRot;
 		PC->GetPlayerViewPoint(OutStartTrace, DummyRot);
 
-		// Adjust trace so there is nothing blocking the ray between the camera and the pawn, and calculate distance from adjusted start
+		/* Adjust trace so there is nothing blocking the ray between the camera and the pawn, and calculate distance from adjusted start */
 		OutStartTrace = OutStartTrace + AimDir * (FVector::DotProduct((Instigator->GetActorLocation() - OutStartTrace), AimDir));
 	}
 
@@ -346,7 +346,7 @@ void ASWeapon::HandleFiring()
 
 			UseAmmo();
 
-			// Update firing FX on remote clients if this is called on server
+			/* Update firing FX on remote clients if this is called on server */
 			BurstCounter++;
 		}
 	}
@@ -457,7 +457,7 @@ void ASWeapon::ServerHandleFiring_Implementation()
 	{
 		UseAmmo();
 
-		// Update firing FX on remote clients
+		/* Update firing FX on remote clients */
 		BurstCounter++;
 	}
 }
@@ -526,7 +526,7 @@ void ASWeapon::SetWeaponState(EWeaponState NewState)
 
 void ASWeapon::OnBurstStarted()
 {
-	// Start firing, can be delayed to satisfy TimeBetweenShots
+	/* Start firing, can be delayed to satisfy TimeBetweenShots */
 	const float GameTime = GetWorld()->GetTimeSeconds();
 	if (LastFireTime > 0 && TimeBetweenShots > 0.0f &&
 		LastFireTime + TimeBetweenShots > GameTime)
@@ -635,7 +635,7 @@ void ASWeapon::OnEquipFinished()
 
 	if (MyPawn)
 	{
-		// Try to reload empty clip
+		/* Try to reload empty clip */
 		if (MyPawn->IsLocallyControlled() &&
 			CurrentAmmoInClip <= 0 &&
 			CanReload())
