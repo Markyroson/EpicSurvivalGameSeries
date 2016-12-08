@@ -20,14 +20,14 @@ void ASUsableActor::OnUsed(APawn* InstigatorPawn)
 
 void ASUsableActor::OnBeginFocus()
 {
-	// Used by custom PostProcess to render outlines
+	/* Used by custom PostProcess to render outlines */
 	MeshComp->SetRenderCustomDepth(true);
 }
 
 
 void ASUsableActor::OnEndFocus()
 {
-	// Used by custom PostProcess to render outlines
+	/* Used by custom PostProcess to render outlines */
 	MeshComp->SetRenderCustomDepth(false);
 }
 
