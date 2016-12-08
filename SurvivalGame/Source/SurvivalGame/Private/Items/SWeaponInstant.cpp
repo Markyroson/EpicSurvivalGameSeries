@@ -52,7 +52,7 @@ void ASWeaponInstant::FireWeapon()
 
 bool ASWeaponInstant::ShouldDealDamage(AActor* TestActor) const
 {
-	// If we are an actor on the server, or the local client has authoritative control over actor, we should register damage.
+	/* If we are an actor on the server, or the local client has authoritative control over actor, we should register damage. */
 	if (TestActor)
 	{
 		if (GetNetMode() != NM_Client ||
@@ -100,10 +100,10 @@ void ASWeaponInstant::ProcessInstantHit(const FHitResult& Impact, const FVector&
 {
 	if (MyPawn && MyPawn->IsLocallyControlled() && GetNetMode() == NM_Client)
 	{
-		// If we are a client and hit something that is controlled by server
+		/* If we are a client and hit something that is controlled by server */
 		if (Impact.GetActor() && Impact.GetActor()->GetRemoteRole() == ROLE_Authority)
 		{
-			// Notify the server of our local hit to validate and apply actual hit damage.
+			/* Notify the server of our local hit to validate and apply actual hit damage. */
 			ServerNotifyHit(Impact, ShootDir);
 		}
 		else if (Impact.GetActor() == nullptr)
@@ -119,26 +119,26 @@ void ASWeaponInstant::ProcessInstantHit(const FHitResult& Impact, const FVector&
 		}
 	}
 
-	// Process a confirmed hit.
+	/* Process a confirmed hit. */
 	ProcessInstantHitConfirmed(Impact, Origin, ShootDir);
 }
 
 
 void ASWeaponInstant::ProcessInstantHitConfirmed(const FHitResult& Impact, const FVector& Origin, const FVector& ShootDir)
 {
-	// Handle damage
+	/* Handle damage */
 	if (ShouldDealDamage(Impact.GetActor()))
 	{
 		DealDamage(Impact, ShootDir);
 	}
 
-	// Play FX on remote clients
+	/* Play FX on remote clients */
 	if (Role == ROLE_Authority)
 	{
 		HitImpactNotify = Impact.ImpactPoint;
 	}
 
-	// Play FX locally
+	/* Play FX locally */
 	if (GetNetMode() != NM_DedicatedServer)
 	{
 		SimulateInstantHit(Impact.ImpactPoint);
@@ -176,7 +176,7 @@ bool ASWeaponInstant::ServerNotifyHit_Validate(const FHitResult Impact, FVector_
 
 void ASWeaponInstant::ServerNotifyHit_Implementation(const FHitResult Impact, FVector_NetQuantizeNormal ShootDir)
 {
-	// If we have an instigator, calculate the dot between the view and the shot
+	/* If we have an instigator, calculate the dot between the view and the shot */
 	if (Instigator && (Impact.GetActor() || Impact.bBlockingHit))
 	{
 		const FVector Origin = GetMuzzleLocation();
@@ -186,7 +186,6 @@ void ASWeaponInstant::ServerNotifyHit_Implementation(const FHitResult Impact, FV
 		if (ViewDotHitDir > AllowedViewDotHitDir)
 		{
 			// TODO: Check for weapon state
-
 			if (Impact.GetActor() == nullptr)
 			{
 				if (Impact.bBlockingHit)
@@ -194,8 +193,8 @@ void ASWeaponInstant::ServerNotifyHit_Implementation(const FHitResult Impact, FV
 					ProcessInstantHitConfirmed(Impact, Origin, ShootDir);
 				}
 			}
-			// Assume it told the truth about static things because we don't move and the hit
-			// usually doesn't have significant gameplay implications
+			/* Assume it told the truth about static things because we don't move and the hit
+			   usually doesn't have significant gameplay implications */
 			else if (Impact.GetActor()->IsRootComponentStatic() || Impact.GetActor()->IsRootComponentStationary())
 			{
 				ProcessInstantHitConfirmed(Impact, Origin, ShootDir);
@@ -213,7 +212,7 @@ void ASWeaponInstant::ServerNotifyHit_Implementation(const FHitResult Impact, FV
 
 				const FVector BoxCenter = (HitBox.Min + HitBox.Max) * 0.5;
 
-				// If we are within client tolerance
+				/* If we are within client tolerance */
 				if (FMath::Abs(Impact.Location.Z - BoxCenter.Z) < BoxExtent.Z &&
 					FMath::Abs(Impact.Location.X - BoxCenter.X) < BoxExtent.X &&
 					FMath::Abs(Impact.Location.Y - BoxCenter.Y) < BoxExtent.Y)
@@ -223,7 +222,6 @@ void ASWeaponInstant::ServerNotifyHit_Implementation(const FHitResult Impact, FV
 			}
 		}
 	}
-
 	// TODO: UE_LOG on failures & rejection
 }
 
@@ -239,7 +237,7 @@ void ASWeaponInstant::ServerNotifyMiss_Implementation(FVector_NetQuantizeNormal 
 	const FVector Origin = GetMuzzleLocation();
 	const FVector EndTrace = Origin + (ShootDir * WeaponRange);
 
-	// Play on remote clients
+	/* Play on remote clients */
 	HitImpactNotify = EndTrace;
 
 	if (GetNetMode() != NM_DedicatedServer)
@@ -268,13 +266,13 @@ void ASWeaponInstant::SpawnImpactEffects(const FHitResult& Impact)
 
 void ASWeaponInstant::SpawnTrailEffects(const FVector& EndPoint)
 {
-	// Keep local count for effects
+	/* Keep local count for effects */
 	BulletsShotCount++;
 
 	const FVector Origin = GetMuzzleLocation();
 	FVector ShootDir = EndPoint - Origin;
 
-	// Only spawn if a minimum distance is satisfied.
+	/* Only spawn if a minimum distance is satisfied. */
 	if (ShootDir.Size() < MinimumProjectileSpawnDistance)
 	{
 		return;
@@ -290,7 +288,7 @@ void ASWeaponInstant::SpawnTrailEffects(const FVector& EndPoint)
 	}
 	else 
 	{
-		// Only create trails FX by other players.
+		/* Only create trails FX by other players. */
 		ASCharacter* OwningPawn = GetPawnOwner();
 		if (OwningPawn && OwningPawn->IsLocallyControlled())
 		{
@@ -311,7 +309,7 @@ void ASWeaponInstant::SpawnTrailEffects(const FVector& EndPoint)
 
 void ASWeaponInstant::OnRep_HitLocation()
 {
-	// Played on all remote clients
+	/* Played on all remote clients */
 	SimulateInstantHit(HitImpactNotify);
 }
 
