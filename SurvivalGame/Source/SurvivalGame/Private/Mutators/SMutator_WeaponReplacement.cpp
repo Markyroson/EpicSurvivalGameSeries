@@ -4,8 +4,6 @@
 #include "SGameMode.h"
 #include "SMutator_WeaponReplacement.h"
 
-
-
 bool ASMutator_WeaponReplacement::CheckRelevance_Implementation(AActor* Other)
 {
 	ASWeaponPickup* WeaponPickup = Cast<ASWeaponPickup>(Other);
