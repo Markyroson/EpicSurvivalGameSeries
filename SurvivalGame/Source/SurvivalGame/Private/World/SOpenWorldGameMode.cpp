@@ -3,10 +3,6 @@
 #include "SurvivalGame.h"
 #include "SOpenWorldGameMode.h"
 
-
-
-
-
 ASOpenWorldGameMode::ASOpenWorldGameMode(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
 {
