@@ -26,9 +26,9 @@ void ASPickupActor::BeginPlay()
 	Super::BeginPlay();
 
 	//if (bStartActive)
-	{
+	//{
 		RespawnPickup();
-	}
+	//}
 }
 
 
