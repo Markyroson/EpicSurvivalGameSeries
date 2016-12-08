@@ -17,7 +17,7 @@ ASZombieCharacter::ASZombieCharacter(const class FObjectInitializer& ObjectIniti
 {
 	/* Note: We assign the Controller class in the Blueprint extension of this class 
 		Because the zombie AIController is a blueprint in content and it's better to avoid content references in code.  */
-	/*AIControllerClass = ASZombieAIController::StaticClass();*/
+	//AIControllerClass = ASZombieAIController::StaticClass();
 
 	/* Our sensing component to detect players by visibility and noise checks. */
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
