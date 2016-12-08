@@ -17,7 +17,7 @@ ASCoopGameMode::ASCoopGameMode(const FObjectInitializer& ObjectInitializer)
 
 
 /*
-	RestartPlayer - Spawn the player next to his living coop buddy instead of a PlayerStart
+*	RestartPlayer - Spawn the player next to his living coop buddy instead of a PlayerStart
 */
 void ASCoopGameMode::RestartPlayer(class AController* NewPlayer)
 {
@@ -53,7 +53,7 @@ void ASCoopGameMode::RestartPlayer(class AController* NewPlayer)
 	/* Get a point on the nav mesh near the other player */
 	FVector StartLocation = UNavigationSystem::GetRandomPointInNavigableRadius(NewPlayer, SpawnOrigin, 250.0f);
 
-	// Try to create a pawn to use of the default class for this player
+	/* Try to create a pawn to use of the default class for this player */
 	if (NewPlayer->GetPawn() == nullptr && GetDefaultPawnClassForController(NewPlayer) != nullptr)
 	{
 		FActorSpawnParameters SpawnInfo;
@@ -74,14 +74,14 @@ void ASCoopGameMode::RestartPlayer(class AController* NewPlayer)
 	{
 		NewPlayer->Possess(NewPlayer->GetPawn());
 
-		// If the Pawn is destroyed as part of possession we have to abort
+		/* If the Pawn is destroyed as part of possession we have to abort */
 		if (NewPlayer->GetPawn() == nullptr)
 		{
 			NewPlayer->FailedToSpawnPawn();
 		}
 		else
 		{
-			// Set initial control rotation to player start's rotation
+			/* Set initial control rotation to player start's rotation */
 			NewPlayer->ClientSetRotation(NewPlayer->GetPawn()->GetActorRotation(), true);
 
 			FRotator NewControllerRot = StartRotation;
