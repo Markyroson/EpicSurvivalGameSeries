@@ -73,12 +73,12 @@ void ASGameMode::DefaultTimer()
 {
 	/* Immediately start the match while playing in editor */
 	//if (GetWorld()->IsPlayInEditor())
+	//{
+	if (GetMatchState() == MatchState::WaitingToStart)
 	{
-		if (GetMatchState() == MatchState::WaitingToStart)
-		{
-			StartMatch();
-		}
+		StartMatch();
 	}
+	//}
 
 	/* Only increment time of day while game is active */
 	if (IsMatchInProgress())
@@ -164,7 +164,7 @@ float ASGameMode::ModifyDamage(float Damage, AActor* DamagedActor, struct FDamag
 		ASPlayerState* DamagedPlayerState = Cast<ASPlayerState>(DamagedPawn->PlayerState);
 		ASPlayerState* InstigatorPlayerState = Cast<ASPlayerState>(EventInstigator->PlayerState);
 
-		// Check for friendly fire
+		/* Check for friendly fire */
 		if (!CanDealDamage(InstigatorPlayerState, DamagedPlayerState))
 		{
 			ActualDamage = 0.f;
@@ -402,7 +402,7 @@ void ASGameMode::SpawnDefaultInventory(APawn* PlayerPawn)
 
 void ASGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
-	// HACK: workaround to inject CheckRelevance() into the BeginPlay sequence
+	/* HACK: workaround to inject CheckRelevance() into the BeginPlay sequence */
 	UFunction* Func = AActor::GetClass()->FindFunctionByName(FName(TEXT("ReceiveBeginPlay")));
 	Func->FunctionFlags |= FUNC_Native;
 	Func->SetNativeFunc((Native)&ASGameMode::BeginPlayMutatorHack);
@@ -438,12 +438,12 @@ void ASGameMode::BeginPlayMutatorHack(FFrame& Stack, RESULT_DECL)
 {
 	P_FINISH;
 
-	// WARNING: This function is called by every Actor in the level during his BeginPlay sequence. Meaning:  'this' is actually an AActor! Only do AActor things!
+	/* WARNING: This function is called by every Actor in the level during his BeginPlay sequence. Meaning:  'this' is actually an AActor! Only do AActor things! */
 	if (!IsA(ALevelScriptActor::StaticClass()) && !IsA(ASMutator::StaticClass()) &&
 		(RootComponent == NULL || RootComponent->Mobility != EComponentMobility::Static || (!IsA(AStaticMeshActor::StaticClass()) && !IsA(ALight::StaticClass()))))
 	{
 		ASGameMode* Game = GetWorld()->GetAuthGameMode<ASGameMode>();
-		// a few type checks being AFTER the CheckRelevance() call is intentional; want mutators to be able to modify, but not outright destroy
+		/* A few type checks being AFTER the CheckRelevance() call is intentional; want mutators to be able to modify, but not outright destroy */
 		if (Game != NULL && Game != this && !Game->CheckRelevance((AActor*)this) && !IsA(APlayerController::StaticClass()))
 		{
 			/* Actors are destroyed if they fail the relevance checks (which moves through the gamemode specific check AND the chain of mutators) */
@@ -464,7 +464,7 @@ void ASGameMode::AddMutator(TSubclassOf<ASMutator> MutClass)
 		}
 		else
 		{
-			// Add as child in chain
+			/* Add as child in chain */
 			BaseMutator->NextMutator = NewMut;
 		}
 	}
