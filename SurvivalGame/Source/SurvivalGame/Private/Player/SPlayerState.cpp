@@ -13,7 +13,7 @@ ASPlayerState::ASPlayerState(const FObjectInitializer& ObjectInitializer)
 	TeamNumber = 0;
 }
 
-
+/* Reset stats */
 void ASPlayerState::Reset()
 {
 	Super::Reset();
