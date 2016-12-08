@@ -3,10 +3,6 @@
 #include "SurvivalGame.h"
 #include "SMutator.h"
 
-
-
-
-
 bool ASMutator::CheckRelevance_Implementation(AActor* Other)
 {
 	if (NextMutator)
