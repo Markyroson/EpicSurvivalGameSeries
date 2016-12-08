@@ -33,7 +33,7 @@ void ASHUD::DrawCenterDot()
 	ASCharacter* Pawn = Cast<ASCharacter>(GetOwningPawn());
 	if (Pawn && Pawn->IsAlive())
 	{
-		// Boost size when hovering over a usable object.
+		/* Boost size when hovering over a usable object. */
 		ASUsableActor* Usable = Pawn->GetUsableInView();
 		if (Usable)
 		{
