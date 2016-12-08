@@ -22,7 +22,7 @@ ASBombActor::ASBombActor(const class FObjectInitializer& ObjectInitializer)
 	AudioComp->bAutoDestroy = false;
 	AudioComp->SetupAttachment(RootComponent);
 
-	// Let the bomb be thrown and roll around
+	/* Let the bomb be thrown and roll around */
 	MeshComp->SetSimulatePhysics(true);
 
 	MaxFuzeTime = 3.0f;
@@ -38,11 +38,11 @@ void ASBombActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	// Ensure the fuze timer is cleared
+	/* Ensure the fuze timer is cleared */
 	GetWorld()->GetTimerManager().ClearTimer(FuzeTimerHandle);
 
-	// Alternatively you can clear ALL timers.
-	/*GetWorld()->GetTimerManager().ClearAllTimersForObject(this);*/
+	/* Alternatively you can clear ALL timers. */
+	//GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
 }
 
 
@@ -56,10 +56,10 @@ void ASBombActor::OnUsed(APawn* InstigatorPawn)
 	Super::OnUsed(InstigatorPawn);
 
 	bIsFuzeActive = true;
-	// Runs on all clients (NetMulticast)
+	/* Runs on all clients (NetMulticast) */
 	SimulateFuzeFX();
 
-	// Activate the fuze to explode the bomb after several seconds
+	/* Activate the fuze to explode the bomb after several seconds */
 	GetWorldTimerManager().SetTimer(FuzeTimerHandle, this, &ASBombActor::Explode, MaxFuzeTime, false);
 
 }
@@ -73,10 +73,10 @@ void ASBombActor::Explode()
 	}
 
 	bExploded = true;
-	// Runs on all clients (NetMulticast)
+	/* Runs on all clients (NetMulticast) */
 	SimulateExplosion();
 
-	// Apply damage to player, enemies and environmental objects
+	/* Apply damage to player, enemies and environmental objects */
 	TArray<AActor*> IgnoreActors;
 	UGameplayStatics::ApplyRadialDamage(this, ExplosionDamage, GetActorLocation(), ExplosionRadius, DamageType, IgnoreActors, this, nullptr);
 
@@ -104,13 +104,13 @@ void ASBombActor::SimulateFuzeFX_Implementation()
 
 void ASBombActor::SimulateExplosion_Implementation()
 {
-	// First deactivate all running fuze effects
+	/* First deactivate all running fuze effects */
 	FuzePCS->DeactivateSystem();
 	AudioComp->Stop();
 
 	MeshComp->SetVisibility(false, false);
 
-	// Activate all explosion effects
+	/* Activate all explosion effects */
 	if (ExplosionSound)
 	{
 		AudioComp->SetSound(ExplosionSound);
