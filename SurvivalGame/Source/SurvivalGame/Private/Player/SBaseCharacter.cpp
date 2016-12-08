@@ -31,7 +31,7 @@ float ASBaseCharacter::GetHealth() const
 
 float ASBaseCharacter::GetMaxHealth() const
 {
-	// Retrieve the default value of the health property that is assigned on instantiation.
+	/* Retrieve the default value of the health property that is assigned on instantiation. */
 	return GetClass()->GetDefaultObject<ASBaseCharacter>()->Health;
 }
 
@@ -215,7 +215,7 @@ void ASBaseCharacter::SetRagdollPhysics()
 
 	if (!bInRagdoll)
 	{
-		// Immediately hide the pawn
+		/* Immediately hide the pawn */
 		TurnOff();
 		SetActorHiddenInGame(true);
 		SetLifeSpan(1.0f);
@@ -255,10 +255,10 @@ void ASBaseCharacter::ReplicateHit(float DamageTaken, struct FDamageEvent const&
 	FDamageEvent const& LastDamageEvent = LastTakeHitInfo.GetDamageEvent();
 	if (PawnInstigator == LastTakeHitInfo.PawnInstigator.Get() && LastDamageEvent.DamageTypeClass == LastTakeHitInfo.DamageTypeClass)
 	{
-		// Same frame damage
+		/* Same frame damage */
 		if (bKilled && LastTakeHitInfo.bKilled)
 		{
-			// Redundant death take hit, ignore it
+			/* Redundant death take hit, ignore it */
 			return;
 		}
 
@@ -323,7 +323,7 @@ bool ASBaseCharacter::IsSprinting() const
 	}
 
 	return bWantsToRun && !IsTargeting() && !GetVelocity().IsZero()
-		// Don't allow sprint while strafing sideways or standing still (1.0 is straight forward, -1.0 is backward while near 0 is sideways or standing still)
+		/* Don't allow sprint while strafing sideways or standing still (1.0 is straight forward, -1.0 is backward while near 0 is sideways or standing still) */
 		&& (FVector::DotProduct(GetVelocity().GetSafeNormal2D(), GetActorRotation().Vector()) > 0.8); // Changing this value to 0.1 allows for diagonal sprinting. (holding W+A or W+D keys)
 }
 
@@ -384,11 +384,11 @@ void ASBaseCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	// Value is already updated locally, skip in replication step
+	/* Value is already updated locally, skip in replication step */
 	DOREPLIFETIME_CONDITION(ASBaseCharacter, bWantsToRun, COND_SkipOwner);
 	DOREPLIFETIME_CONDITION(ASBaseCharacter, bIsTargeting, COND_SkipOwner);
 
-	// Replicate to every client, no special condition required
+	/* Replicate to every client, no special condition required */
 	DOREPLIFETIME(ASBaseCharacter, Health);
 	DOREPLIFETIME(ASBaseCharacter, LastTakeHitInfo);
 }
