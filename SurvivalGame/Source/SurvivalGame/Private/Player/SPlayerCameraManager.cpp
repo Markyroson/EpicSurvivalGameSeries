@@ -30,12 +30,12 @@ void ASPlayerCameraManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-// 	ASCharacter* MyPawn = PCOwner ? Cast<ASCharacter>(PCOwner->GetPawn()) : nullptr;
-// 	if (MyPawn)
-// 	{
-// 		/* Cache the offset Z value of the camera to maintain a correct offset while transition during crouches */
-// 		DefaultCameraOffsetZ = MyPawn->GetCameraComponent()->GetRelativeTransform().GetLocation().Z;
-// 	}
+/* 	ASCharacter* MyPawn = PCOwner ? Cast<ASCharacter>(PCOwner->GetPawn()) : nullptr;
+ 	if (MyPawn)
+ 	{
+ 		/* Cache the offset Z value of the camera to maintain a correct offset while transition during crouches *
+ 		DefaultCameraOffsetZ = MyPawn->GetCameraComponent()->GetRelativeTransform().GetLocation().Z;
+ 	}*/
 }
 
 
