@@ -19,7 +19,7 @@ ASFlashlight::ASFlashlight(const FObjectInitializer& ObjectInitializer)
 
 	SpotLightComp = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLightComp"));
 	SpotLightComp->SetupAttachment(GetWeaponMesh(), LightAttachPoint);
-	/*SpotLightComp->SetCastShadows(false);*/
+	//SpotLightComp->SetCastShadows(false);
 	SpotLightComp->AddLocalRotation(FRotator(0, -90, 0));
 
 	bIsActive = true;
