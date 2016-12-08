@@ -30,8 +30,8 @@ EBTNodeResult::Type UBTTask_FindBotWaypoint::ExecuteTask(UBehaviorTreeComponent&
 	if (AllWaypoints.Num() == 0)
 		return EBTNodeResult::Failed;
 
-	/* Find a new waypoint randomly by index (this can include the current waypoint) */
-	/* For more complex or human AI you could add some weights based on distance and other environmental conditions here */
+	/* Find a new waypoint randomly by index (this can include the current waypoint)
+	 For more complex or human AI you could add some weights based on distance and other environmental conditions here */
 	NewWaypoint = AllWaypoints[FMath::RandRange(0, AllWaypoints.Num() - 1)];
 
 	/* Assign the new waypoint to the Blackboard */
