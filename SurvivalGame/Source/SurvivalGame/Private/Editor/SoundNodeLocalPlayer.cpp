@@ -7,7 +7,7 @@
 
 void USoundNodeLocalPlayer::ParseNodes(FAudioDevice* AudioDevice, const UPTRINT NodeWaveInstanceHash, FActiveSound& ActiveSound, const FSoundParseParameters& ParseParams, TArray<FWaveInstance*>& WaveInstances)
 {
-	// The accesses to the Pawn will be unsafe once we thread audio, deal with this at that point
+	/* The accesses to the Pawn will be unsafe once we thread audio, deal with this at that point */
 	check(IsInGameThread());
 
 	AActor* SoundOwner = ActiveSound.GetAudioComponentID() ? UAudioComponent::GetAudioComponentFromID(ActiveSound.GetAudioComponentID())->GetOwner() : nullptr;
